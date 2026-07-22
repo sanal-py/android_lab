@@ -1,0 +1,115 @@
+package com.example.validation;
+
+import android.os.Bundle;
+import android.util.Patterns;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+public class MainActivity extends AppCompatActivity {
+  EditText name,email,phone,age,password,confirmpassword;
+  Button submit;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+
+        name = findViewById(R.id.editTextText4);
+        phone=findViewById(R.id.editTextText3);
+        age=findViewById(R.id.editTextText5);
+        email=findViewById(R.id.editTextText6);
+        password=findViewById(R.id.editTextNumberPassword);
+        confirmpassword=findViewById(R.id.editTextNumberPassword2);
+        submit=findViewById(R.id.button);
+
+        submit.setOnClickListener(v-> {
+
+
+            String n = name.getText().toString().trim();
+            String e = email.getText().toString().trim();
+            String p = phone.getText().toString().trim();
+            String a = age.getText().toString().trim();
+            String pass = password.getText().toString().trim();
+            String cpass = confirmpassword.getText().toString().trim();
+
+
+            if (n.isEmpty()) {
+                name.setError("Name is required");
+                name.requestFocus();
+                return;
+            }
+            if (e.isEmpty()) {
+                email.setError("email is required");
+                email.requestFocus();
+                return;
+
+            }
+            if (!Patterns.EMAIL_ADDRESS.matcher(e).matches()) {
+                email.setError("email is required");
+                email.requestFocus();
+                return;
+            }
+             if (p.isEmpty()) {
+                 phone.setError("phone no is required");
+                 phone.requestFocus();
+                 return;
+             }
+              if (p.length() != 10) {
+                  phone.setError("enter 10 digits");
+                  phone.requestFocus();
+                  return;
+
+
+
+
+                        }
+
+            // Age Validation
+            if (a.isEmpty()) {
+                age.setError("Age is required");
+                age.requestFocus();
+                return;
+            }
+
+
+            if (pass.isEmpty()) {
+                password.setError("Password is required");
+                password.requestFocus();
+                return;
+            }
+
+            if (pass.length() < 6) {
+                password.setError("Password must be at least 6 characters");
+                password.requestFocus();
+                return;
+            }
+
+            if (cpass.isEmpty()) {
+                confirmpassword.setError("Confirm Password is required");
+                confirmpassword.requestFocus();
+                return;
+            }
+
+            if (!pass.equals(cpass)) {
+                confirmpassword.setError("Passwords do not match");
+                confirmpassword.requestFocus();
+                return;
+            }
+
+            Toast.makeText(MainActivity.this, "Validation Successful", Toast.LENGTH_SHORT).show();
+        });
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+    }
+}
