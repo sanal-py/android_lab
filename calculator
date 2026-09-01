@@ -1,0 +1,168 @@
+package com.example.calculator;
+
+import android.os.Bundle;
+import android.widget.TextView;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    TextView tv1;
+
+    String first = "";
+    String second = "";
+    String operator = "";
+    boolean isSecondNumber = false;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+
+
+        tv1 = findViewById(R.id.textView2);
+
+
+        // Number Buttons (your old names)
+
+        findViewById(R.id.button19).setOnClickListener(v -> addNumber("0"));
+        findViewById(R.id.button15).setOnClickListener(v -> addNumber("1"));
+        findViewById(R.id.button16).setOnClickListener(v -> addNumber("2"));
+        findViewById(R.id.button17).setOnClickListener(v -> addNumber("3"));
+        findViewById(R.id.button11).setOnClickListener(v -> addNumber("4"));
+        findViewById(R.id.button12).setOnClickListener(v -> addNumber("5"));
+        findViewById(R.id.button13).setOnClickListener(v -> addNumber("6"));
+        findViewById(R.id.button7).setOnClickListener(v -> addNumber("7"));
+        findViewById(R.id.button8).setOnClickListener(v -> addNumber("8"));
+        findViewById(R.id.button9).setOnClickListener(v -> addNumber("9"));
+
+
+        // Decimal
+
+        findViewById(R.id.button20).setOnClickListener(v -> addNumber("."));
+
+
+        // Operators
+
+        findViewById(R.id.button22).setOnClickListener(v -> setOperator("+"));
+        findViewById(R.id.button18).setOnClickListener(v -> setOperator("-"));
+        findViewById(R.id.button14).setOnClickListener(v -> setOperator("*"));
+        findViewById(R.id.button10).setOnClickListener(v -> setOperator("/"));
+
+
+        // Equal
+
+        findViewById(R.id.button21).setOnClickListener(v -> calculate());
+
+
+        // Clear
+
+        findViewById(R.id.button23).setOnClickListener(v -> {
+
+            first = "";
+            second = "";
+            operator = "";
+            isSecondNumber = false;
+
+            tv1.setText("0");
+
+        });
+
+    }
+
+
+    private void addNumber(String value) {
+
+        if (!isSecondNumber) {
+
+            first += value;
+            tv1.setText(first);
+
+        } else {
+
+            second += value;
+            tv1.setText(first + operator + second);
+
+        }
+    }
+
+
+
+    private void setOperator(String op) {
+
+        if (first.isEmpty())
+            return;
+
+
+        operator = op;
+        isSecondNumber = true;
+
+        tv1.setText(first + operator);
+
+    }
+
+
+
+    private void calculate() {
+
+
+        if (first.isEmpty() || second.isEmpty())
+            return;
+
+
+        double num1 = Double.parseDouble(first);
+        double num2 = Double.parseDouble(second);
+
+        double result = 0;
+
+
+        switch(operator) {
+
+            case "+":
+                result = num1 + num2;
+                break;
+
+            case "-":
+                result = num1 - num2;
+                break;
+
+            case "*":
+                result = num1 * num2;
+                break;
+
+            case "/":
+
+                if(num2 == 0) {
+                    tv1.setText("Cannot divide by 0");
+                    return;
+                }
+
+                result = num1 / num2;
+                break;
+        }
+
+
+        if(result == (int)result) {
+
+            tv1.setText(String.valueOf((int)result));
+            first = String.valueOf((int)result);
+
+        } else {
+
+            tv1.setText(String.valueOf(result));
+            first = String.valueOf(result);
+
+        }
+
+
+        second = "";
+        operator = "";
+        isSecondNumber = false;
+
+    }
+
+
