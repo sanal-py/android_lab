@@ -1,0 +1,60 @@
+package com.example.spinner_event;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    Spinner spinner;
+    Button btnSelect;
+
+    String[] courses = {
+            "Android",
+            "Flutter",
+            "Python",
+            "Java",
+            "PHP",
+            "React"
+    };
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        spinner = findViewById(R.id.spinner);
+        btnSelect = findViewById(R.id.btnSelect);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_item,
+                courses
+        );
+
+        adapter.setDropDownViewResource(
+                android.R.layout.simple_spinner_dropdown_item
+        );
+
+        spinner.setAdapter(adapter);
+
+        btnSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String selected = spinner.getSelectedItem().toString();
+
+                Toast.makeText(
+                        MainActivity.this,
+                        "Selected Course: " + selected,
+                        Toast.LENGTH_SHORT
+                ).show();
+            }
+        });
+    }
+}
