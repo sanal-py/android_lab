@@ -1,0 +1,44 @@
+package com.example.array_adapter;
+import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
+import android.widget.ListView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.array_adapter.R;
+
+public class MainActivity extends AppCompatActivity {
+
+    ListView lstview;
+
+    String[] fruits = {
+            "Apple",
+            "Banana",
+            "Orange",
+            "Mango",
+            "Grapes",
+            "Pineapple"
+    };
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        lstview = findViewById(R.id.lstview);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_list_item_1,
+                fruits
+        );
+        lstview.setAdapter(adapter);
+        lstview.setOnItemClickListener((parent, contentView, position, id) -> {
+            String selectedFruit = fruits[position];
+            Toast.makeText(
+                    MainActivity.this,
+                    "Selected: " + selectedFruit,
+                    Toast.LENGTH_SHORT
+            ).show();
+        });
+    }
+}
