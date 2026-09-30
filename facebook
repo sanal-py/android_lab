@@ -1,0 +1,53 @@
+package com.example.facebookpage;
+
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    EditText editTextUsername, editTextPassword;
+    Button btnlogin;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // Connect Java file with XML layout
+        setContentView(R.layout.activity_main);
+
+        // Connect XML components with Java
+        editTextUsername = findViewById(R.id.editTextUsername);
+        editTextPassword = findViewById(R.id.editTextPassword);
+        btnlogin = findViewById(R.id.btnlogin);
+
+        // Login button click
+        btnlogin.setOnClickListener(v -> {
+
+            // Get username and password entered by user
+            String username = editTextUsername.getText().toString().trim();
+            String password = editTextPassword.getText().toString().trim();
+
+            // Check login details
+            if (username.equals("admin") && password.equals("1234")) {
+
+                Toast.makeText(
+                        MainActivity.this,
+                        "Login Successful",
+                        Toast.LENGTH_SHORT
+                ).show();
+
+            } else {
+
+                Toast.makeText(
+                        MainActivity.this,
+                        "Invalid Username or Password",
+                        Toast.LENGTH_SHORT
+                ).show();
+            }
+        });
+    }
+}
