@@ -1,0 +1,107 @@
+package com.example.cruds;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+public class MainActivity extends AppCompatActivity {
+    EditText name, rollno;
+    Button insert;
+    SQLiteDatabase db;
+
+    @SuppressLint("MissingInflatedId")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+        name = findViewById(R.id.editTextText);
+        rollno = findViewById(R.id.editTextText2);
+        insert = findViewById(R.id.button2);
+
+        db = openOrCreateDatabase("StudentDB",
+                Context.MODE_PRIVATE, null);
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS STUDENT(" + "id INTEGER PRIMARY KEY AUTOINCREMENT," + "name TEXT," + "rollno INTEGER)");
+
+        insert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String StudentName;
+                String StudentRollno;
+                {
+                    StudentName = name.getText().toString();
+                    StudentRollno = rollno.getText().toString();
+                }
+                if (StudentName.isEmpty() || StudentRollno.isEmpty()) {
+                    Toast.makeText(
+                            MainActivity.this,
+                            "please enter the name and rollno",
+                            Toast.LENGTH_SHORT
+
+                    ).show();
+
+                } else {
+                    db.execSQL("INSERT INTO student (name,rollno) VALUES(?,?)",
+                            new Object[]{
+                                    StudentName,
+                                    Integer.parseInt(StudentRollno)
+                            }
+                    );
+                    Toast.makeText(MainActivity.this, "Data inserted successfully", Toast.LENGTH_SHORT).show();
+                    name.setText("");
+                    rollno.setText("");
+
+
+                }
+            }
+        });
+    }
+}
+  update.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+
+
+            StudentName = name.getText().toString();
+            StudentRollno = rollno.getText().toString();
+        }
+        if (StudentName.isEmpty() || StudentRollno.isEmpty()) {
+            Toast.makeText(
+                    MainActivity.this,
+                    "please enter the name and rollno",
+                    Toast.LENGTH_SHORT
+
+            ).show();
+
+        } else {
+            db.execSQL("UPDATE STUDENT SET name = ? WHERE rollno = ?",
+
+                    new Object[]{
+                            StudentName,
+                            Integer.parseInt(StudentRollno)
+                    }
+            );
+            Toast.makeText(MainActivity.this, "Data updated successfully", Toast.LENGTH_SHORT).show();
+            name.setText("");
+            rollno.setText("");
+
+
+        }
+    }
+});
+        }
+        }
+
+
